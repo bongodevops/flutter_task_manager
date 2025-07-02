@@ -20,7 +20,7 @@ class TaskManagerApp extends StatelessWidget {
         inputDecorationTheme: InputDecorationTheme(
           fillColor: Colors.white,
           filled: true,
-          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          contentPadding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
           hintStyle: TextStyle(color: Colors.grey),
           border: OutlineInputBorder(borderSide: BorderSide.none),
           enabledBorder: OutlineInputBorder(borderSide: BorderSide.none),
