@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 
+import '../screen/sign_in_screen.dart';
 import '../widgets/app_logo.dart';
 import '../widgets/screen_background.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
+
+  static const String name = '/';
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -18,25 +21,14 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _moveToNextScreen() async {
-    await Future.delayed(Duration(seconds: 3));
+    await Future.delayed(Duration(seconds: 5));
     if (mounted) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => SplashScreen()),
-      );
+      Navigator.pushReplacementNamed(context, SignInScreen.name);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          ScreenBackground(
-            child: Align(alignment: Alignment.center, child: AppLogo()),
-          ),
-        ],
-      ),
-    );
+    return Scaffold(body: ScreenBackground(child: Center(child: AppLogo())));
   }
 }

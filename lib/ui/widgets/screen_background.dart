@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../utils/asset_paths.dart';
@@ -14,9 +14,9 @@ class ScreenBackground extends StatelessWidget {
       children: [
         SvgPicture.asset(
           AssetPaths.backgroundSvg,
+          fit: BoxFit.cover,
           height: double.maxFinite,
           width: double.maxFinite,
-          fit: BoxFit.cover,
         ),
         SafeArea(child: child),
       ],
