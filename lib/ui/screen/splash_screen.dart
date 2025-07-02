@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
-import '../utils/asset_paths.dart';
+import '../widgets/app_logo.dart';
+import '../widgets/screen_background.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -32,15 +32,8 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          SvgPicture.asset(
-            AssetPaths.backgroundSvg,
-            height: double.maxFinite,
-            width: double.maxFinite,
-            fit: BoxFit.cover,
-          ),
-          Align(
-            alignment: Alignment.center,
-            child: SvgPicture.asset(AssetPaths.logoSvg),
+          ScreenBackground(
+            child: Align(alignment: Alignment.center, child: AppLogo()),
           ),
         ],
       ),
