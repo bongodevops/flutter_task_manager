@@ -4,7 +4,9 @@ import 'package:flutter_svg/svg.dart';
 import '../utils/asset_paths.dart';
 
 class AppLogo extends StatelessWidget {
-  const AppLogo({super.key});
+  const AppLogo({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

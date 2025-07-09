@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_task_manager/ui/screen/change_password_screen.dart';
-import 'package:flutter_task_manager/ui/screen/forgot_password_screen.dart';
-import 'package:flutter_task_manager/ui/screen/pin_verification_screen.dart';
-import 'package:flutter_task_manager/ui/screen/sign_in_screen.dart';
-import 'package:flutter_task_manager/ui/screen/sign_up_screen.dart';
-import 'package:flutter_task_manager/ui/screen/splash_screen.dart';
+import 'package:flutter_task_manager/ui/screens/add_new_task_screen.dart';
+import 'package:flutter_task_manager/ui/screens/change_password_screen.dart';
+import 'package:flutter_task_manager/ui/screens/forgot_password_screen.dart';
+import 'package:flutter_task_manager/ui/screens/main_nav_bar_holder_screen.dart';
+import 'package:flutter_task_manager/ui/screens/pin_verification_screen.dart';
+import 'package:flutter_task_manager/ui/screens/profile_update_screen.dart';
+import 'package:flutter_task_manager/ui/screens/sign_in_screen.dart';
+import 'package:flutter_task_manager/ui/screens/sign_up_screen.dart';
+import 'package:flutter_task_manager/ui/screens/splash_screen.dart';
 
 class TaskManagerApp extends StatelessWidget {
   const TaskManagerApp({super.key});
+
+  static GlobalKey<NavigatorState> navigator = GlobalKey<NavigatorState>();
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +25,7 @@ class TaskManagerApp extends StatelessWidget {
         inputDecorationTheme: InputDecorationTheme(
           fillColor: Colors.white,
           filled: true,
-          contentPadding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           hintStyle: TextStyle(color: Colors.grey),
           border: OutlineInputBorder(borderSide: BorderSide.none),
           enabledBorder: OutlineInputBorder(borderSide: BorderSide.none),
@@ -44,13 +49,17 @@ class TaskManagerApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        SplashScreen.name: (context) => SplashScreen(),
+        SplashScreen.name : (context) => SplashScreen(),
         SignInScreen.name: (context) => SignInScreen(),
         SignUpScreen.name: (context) => SignUpScreen(),
+
         ForgotPasswordEmailScreen.name:
             (context) => ForgotPasswordEmailScreen(),
         PinVerificationScreen.name: (context) => PinVerificationScreen(),
         ChangePasswordScreen.name: (context) => ChangePasswordScreen(),
+        MainNavBarHolderScreen.name: (context) => MainNavBarHolderScreen(),
+        AddNewTaskScreen.name: (context) => AddNewTaskScreen(),
+        ProfileUpdateScreen.name: (context) => ProfileUpdateScreen(),
       },
     );
   }
