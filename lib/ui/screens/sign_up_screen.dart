@@ -1,8 +1,10 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 
+import '../../data/service/network_caller.dart';
+import '../../data/service/urls.dart';
 import '../widgets/screen_background.dart';
-import 'main_nav_bar_holder_screen.dart';
+import '../widgets/snack_bar_message.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -20,6 +22,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _phoneTEController = TextEditingController();
   final TextEditingController _passwordTEController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  bool _signUpInProgress = false;
 
   @override
   Widget build(BuildContext context) {
@@ -102,9 +105,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     },
                   ),
                   const SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: _onTapSignUpButton,
-                    child: Icon(Icons.arrow_circle_right_outlined),
+                  SizedBox(
+                    width: double.infinity,
+                    child: Visibility(
+                      visible: _signUpInProgress == false,
+                      replacement: const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                      child: ElevatedButton(
+                        onPressed: _onTapSignUpButton,
+                        child: const Icon(Icons.arrow_circle_right_outlined),
+                      ),
+                    ),
                   ),
                   const SizedBox(height: 32),
 
@@ -112,14 +124,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('Have an account?',style: TextStyle(color: Colors.grey),),
-                        TextButton(onPressed: _onTapSignInButton, child: Text('Sign In',style: TextStyle(color: Colors.green),),),
-
+                        Text(
+                          'Have an account?',
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                        TextButton(
+                          onPressed: _onTapSignInButton,
+                          child: Text(
+                            'Sign In',
+                            style: TextStyle(color: Colors.green),
+                          ),
+                        ),
                       ],
-
                     ),
                   ),
-
                 ],
               ),
             ),
@@ -131,10 +149,53 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   void _onTapSignUpButton() {
     if (_formKey.currentState!.validate()) {
-
       // TODO: Sign in with API
+      _signUp();
     }
   }
+
+  /// SinUp Post method for API strat
+
+  Future<void> _signUp() async {
+    _signUpInProgress = true;
+    setState(() {});
+
+    Map<String, String> requestBody = {
+      "email": _emailTEController.text.trim(),
+      "firstName": _firstNameTEController.text.trim(),
+      "lastName": _lastNameTEController.text.trim(),
+      "mobile": _phoneTEController.text.trim(),
+      "password": _passwordTEController.text,
+    };
+
+    NetworkResponse response = await NetworkCaller.postRequest(
+      url: Urls.registrationUrl,
+      body: requestBody,
+    );
+
+    _signUpInProgress = false;
+    setState(() {});
+
+    if (response.isSuccess) {
+      _clearTextFields();
+      showSnackBarMessage(
+        context,
+        'Registration has been success. Please login',
+      );
+    } else {
+      showSnackBarMessage(context, response.errorMessage!);
+    }
+  }
+
+  void _clearTextFields() {
+    _firstNameTEController.clear();
+    _lastNameTEController.clear();
+    _emailTEController.clear();
+    _phoneTEController.clear();
+    _passwordTEController.clear();
+  }
+
+  /// Sign Up post method for API end
 
   void _onTapSignInButton() {
     Navigator.pop(context);
