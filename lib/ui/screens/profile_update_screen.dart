@@ -1,5 +1,6 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../widgets/screen_background.dart';
 import '../widgets/task_manager_app_bar.dart';
@@ -13,14 +14,14 @@ class ProfileUpdateScreen extends StatefulWidget {
 }
 
 class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
-
   final TextEditingController _emailTEController = TextEditingController();
   final TextEditingController _firstNameTEController = TextEditingController();
   final TextEditingController _lastNameTEController = TextEditingController();
   final TextEditingController _phoneTEController = TextEditingController();
   final TextEditingController _passwordTEController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
+  final ImagePicker _imagePicker = ImagePicker();
+  XFile? _selectedImage;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +42,10 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                     'Update Profile',
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
+
                   const SizedBox(height: 24),
+                  _buildPhotoPicker(),
+
                   // TODO: Design photo selector
                   const SizedBox(height: 8),
                   TextFormField(
@@ -119,6 +123,62 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
     );
   }
 
+  ///Imager picker method start
+  /// Extract method
+  Widget _buildPhotoPicker() {
+    return GestureDetector(
+      onTap: _onTapImagePicker,
+      child: Container(
+        width: double.maxFinite,
+        height: 60,
+        decoration: BoxDecoration(color: Colors.white),
+        child: Row(
+          children: [
+            Container(
+              alignment: Alignment.center,
+              height: 60,
+              width: 100,
+              decoration: BoxDecoration(
+                color: Colors.grey,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  bottomLeft: Radius.circular(10),
+                ),
+              ),
+              child: Text(
+                "Photo",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                _selectedImage == null ? "Select image" : _selectedImage!.name,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _onTapImagePicker() async {
+    final XFile? image = await _imagePicker.pickImage(
+      source: ImageSource.gallery,
+    );
+    if (image != null) {
+      setState(() {
+        _selectedImage = image;
+      });
+    }
+  }
+
+  ///Imager picker method end
   void _onTapSignUpButton() {
     if (_formKey.currentState!.validate()) {
       // TODO: Sign in with API
