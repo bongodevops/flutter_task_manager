@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_task_manager/ui/screens/sign_in_screen.dart';
 
 import '../../app.dart';
+import '../controllers/auth_controller.dart';
 import '../screens/profile_update_screen.dart';
 
 class TaskManagerAppBar extends StatefulWidget implements PreferredSizeWidget {
@@ -59,7 +60,8 @@ class _TaskManagerAppBarState extends State<TaskManagerAppBar> {
   }
 
   /// signature method create
-  void _onTapLogoutButton() {
+  Future<void> _onTapLogoutButton() async {
+    await AuthController.clearData();
     Navigator.pushNamedAndRemoveUntil(
       context,
       SignInScreen.name,
